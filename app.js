@@ -10,6 +10,17 @@ app.set('views', 'views');
 
 const path = require('path');
 
+const session = require('express-session');
+
+app.use(session({
+    secret: 's&xYnn9oVRuo3*0@sBA&SedkdMGoM!&e%kASzFfZ6537MqWruvYe27X=7hQUdktRRxYQHDjWtW7veznF',
+    resave: false, 
+    saveUninitialized: false, 
+}));
+
+// La aplicacion va a tener acceso a todo lo que esta en public
+app.use(express.static(path.join(__dirname, 'public')));
+
 // To manipulate easily the data 
 const bodyParser = require('body-parser');
 
@@ -45,4 +56,4 @@ app.use((request, response, next) => {
 });
 
 // So the server can be active
-app.listen(5000);
+app.listen(2000);
