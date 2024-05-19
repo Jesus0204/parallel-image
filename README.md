@@ -11,7 +11,14 @@ Now before I explain my project there is something important to note here. In th
 This means that concurrency is multiple tasks over a single CPU, while parallelism is running a single task using several CPUs or cores. 
 
 ## Description
-Considering this, I implemented a small web app using parallel programming. On the small website, you can upload an image, and transform the image to one of the following: blur, greyscale, sepia, or invert. Image processing is a very expensive program to run since every pixel of the image has to be transformed depending on what was selected. Common images have 2048 pixels in width and 1536 in height, which means that the total of pixels is 3,145,728. And this isn't even a high-quality image, where the pixel count could increase to 25,000,000 pixels. To apply the "filters" to the images more efficiently, parallel programming would cut the time considerably, and take advantage of the full resources of the CPU. 
+Considering this, I implemented a small web app using parallel programming. On the small website, you can upload an image, and transform the image to one of the following:
+
+1. blur
+2. greyscale
+3. sepia
+4. invert
+
+Image processing is a very expensive program to run since every pixel of the image has to be transformed depending on what was selected. Common images have 2048 pixels in width and 1536 in height, which means that the total of pixels is 3,145,728. And this isn't even a high-quality image, where the pixel count could increase to 25,000,000 pixels. To apply the "filters" to the images more efficiently, parallel programming would cut the time considerably, and take advantage of the full resources of the CPU. 
 
 ## Parallel JS Library
 I am developed a small website using Node JS. Other languages (like C++) have an API called Open MP. What Open MP does is create threads to parallelize for loops, taking full advatnge of the cores available. Open MP uses pragmas to tell the compiler which of the code needs to be parallelized. Now, while Open MP is very simple to use in C++, it doesn't offer Javascript support. I only know how to program Web Aplications in Javascript, so initially this seemed like a problem. After researching how to use Javascript to solve this problem, I found two available options: 
