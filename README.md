@@ -38,10 +38,12 @@ Having selected the method, I am now going to explain how the Parallel JS Librar
 This is the constructor of the parallel job. It takes the data that you will work in and other options. In the options, the only parameter that is important enough to be mentioned is the maxWorkers. Here you can set how many workers you want working on the task at the same time. When using Node (like I am) the default number is the number of cores (CPUs) that your computer has. I will use the default, to maximize the running time and use all the available CPUs. In the case of my computer, I have 10 cores. 
 
 #### map
-What map does is take in a function to apply. Then Parallel JS will spawn one worker for each element in the data array that you previously passed. If there are more elements in the data than workers, then it will use the maxWorkers argument. This means that if all my CPUs are available, it will spawn one worker for the first 10 elements, and when any task is finished give a new worker to the next element in the data. This is the best way to implement my project since it spawns all the workers in the best possible way automatically. The library has other methods, but since they are not used, they are not mentioned here. 
+What map does is take in a function to apply. Then Parallel JS will spawn one worker for each element in the data array that you previously passed. If there are more elements in the data than workers, then it will use the maxWorkers argument. This means that if all my CPUs are available, it will spawn one worker for the first 10 elements, and when any task is finished give a new worker to the next element in the data. This is the best way to implement my project since it spawns all the workers in the best possible way automatically.
+
+The library has other methods, but since they are not used, they are not mentioned here. 
 
 ## Model
-here the model will be defined
+Here the model will be defined
 
 ## References
 Geeks for Geeks. (June 4, 2021). Introduction to Parallel Computing. https://www.geeksforgeeks.org/introduction-to-parallel-computing/ 
