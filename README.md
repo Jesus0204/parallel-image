@@ -31,7 +31,17 @@ I developed a small website using Node JS. Other languages (like C++) have an AP
 Both options let me implement the solution using the Parallel Programming Paradigm, so both are good solutions. So which one do I pick? After reading how to implement both, and the complexity that each one requires I decided to use the Parallel JS library. Using WebAssembly is not that complex, but for this project, I would have to use WeAssemply with the Open MP API, which increments the complexity. I don't have experience using WebAssembly, and the learning curve is too big for the benefits that it gives. Since both give me access to multiple cores and I am going to use Parallel JS on the server side (so there is no browser overhead and to use the better hardware), using the library seems like the obvious and best solution. It keeps my web application on pure Javascript, it is easier to code and runs almost as fast as WebAssembly. Additionally, using WebAssembly would require compiling code, which makes the whole process of converting the image one step longer. Taking all of this into account, it is the natural solution to implement this project. 
 
 ## Parallel JS Library
-Having selected the method, I am now going to explain how the Parallel JS Library works.
+Having selected the method, I am now going to explain how the Parallel JS Library works. According to the Parallel JS Documentation, when using Node, the library uses child processes. But what are Child Processes? According to Geeks for Geeks (2024), a child process can create additional threads. Now, I had mentioned that Parallel programming is running a single task on multiple CPUs, but here it seems like new threads will be created for every task. In reality, I will only have two threads. The first one is the main Javascript thread where the web application is running. The beauty of Parallel JS is that it leaves this thread alone, so the whole of the application can run smoothly. If this thread was given to execute the task, the web app would likely crash, so it is important to leave this thread alone. The other thread would be the one that processes the image with parallel programming. 
+
+### Parallel JS methods
+#### Parallel(data, opts)
+This is the constructor of the parallel job. It takes the data that you will work in and other options. In the options, the only parameter that is important enough to be mentioned is the maxWorkers. Here you can set how many workers you want working on the task at the same time. When using Node (like I am) the default number is the number of cores (CPUs) that your computer has. I will use the default, to maximize the running time and use all the available CPUs. In the case of my computer, I have 10 cores. 
+
+#### map
+What map does is take in a function to apply. Then Parallel JS will spawn one worker for each element in the data array that you previously passed. If there are more elements in the data than workers, then it will use the maxWorkers argument. This means that if all my CPUs are available, it will spawn one worker for the first 10 elements, and when any task is finished give a new worker to the next element in the data. This is the best way to implement my project since it spawns all the workers in the best possible way automatically. The library has other methods, but since they are not used, they are not mentioned here. 
+
+## Model
+here the model will be defined
 
 ## References
 Geeks for Geeks. (June 4, 2021). Introduction to Parallel Computing. https://www.geeksforgeeks.org/introduction-to-parallel-computing/ 
