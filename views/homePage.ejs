@@ -1,9 +1,66 @@
 <%- include('includes/head.ejs') %>
 
 <body>
-<h1>Hello World</h1>
+<section class="section">
+    <div class="container">
+        <h1 id="title" class="title">Parallel Image Processor</h1>
+        <p>
+            Welcome! This is a small website application which uses the Parallel js library to process an image.
+            Please upload an image, select the type of processing that you want, and submit the image! 
+        </p>
+        <br>
+        <form action="/processImage" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <label class="label" for="type">Type of Processing:</label>
+            <div class="control">
+                <label class="radio">
+                    <input type="radio" name="type" value="blur"/>
+                    Blur
+                </label>
+                <label class="radio">
+                    <input type="radio" name="type" value="grayscale" />
+                    Grayscale
+                </label>
+                <label class="radio">
+                    <input type="radio" name="type" value="sepia" />
+                    Sepia
+                </label>
+                <label class="radio">
+                    <input type="radio" name="type" value="invert" />
+                    Invert
+                </label>
+            </div>
+            <br>
+            <label class="label" for="imagen">Image to Process:</label>
+            <div id="file-js-upload" class="file is-info has-name">
+                <label class="file-label">
+                    <input class="file-input" type="file" name="imagen" accept=".png,.jpg" id="imagen" />
+                    <span class="file-cta">
+                        <span class="file-icon">
+                            <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label"> Choose a file… </span>
+                    </span>
+                    <span class="file-name"> No file uploaded </span>
+                </label>
+            </div>
+            <br>
+            <input class="button is-info" type="submit"
+                value="Upload & Process">
+        </form>
+    </div>
+</section>
 
 <%- include('includes/foot.ejs') %>
+<script>
+    const fileInput = document.querySelector("#file-js-upload input[type=file]");
+    fileInput.onchange = () => {
+        if (fileInput.files.length > 0) {
+            const fileName = document.querySelector("#file-js-upload .file-name");
+            fileName.textContent = fileInput.files[0].name;
+        }
+    };
+</script>
 </body>
 
 </html>
