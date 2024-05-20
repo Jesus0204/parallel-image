@@ -2,13 +2,13 @@
 const parallel = require('paralleljs');
 
 exports.processImage = (request, response, next) => {
-    if (request.body.type = 'blur'){
+    if (request.body.type == 'blur'){
         console.log('blur');
-    } else if (request.body.type = 'grayscale') {
+    } else if (request.body.type == 'grayscale') {
         console.log('grayscale');
-    } else if (request.body.type = 'sepia') {
+    } else if (request.body.type == 'sepia') {
         console.log('sepia');
-    } else if (request.body.type = 'invert') {
+    } else if (request.body.type == 'invert') {
         console.log('invert');
     }
     // For the time being so the website doesn't load forever

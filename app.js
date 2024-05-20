@@ -32,7 +32,7 @@ app.use(bodyParser.urlencoded({
 const multer = require('multer');
 const upload = multer(); 
 
-app.use(upload.single('archivo')); 
+app.use(upload.single('imagen')); 
 
 // To protect from Cross-Site Request Forgery
 const csrf = require('csurf');
