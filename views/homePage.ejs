@@ -10,7 +10,6 @@
         </p>
         <br>
         <form action="/processImage" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <label class="label" for="type">Type of Processing:</label>
             <div class="control">
                 <label class="radio">
@@ -34,7 +33,7 @@
             <label class="label" for="imagen">Image to Process:</label>
             <div id="file-js-upload" class="file is-info has-name">
                 <label class="file-label">
-                    <input class="file-input" type="file" name="imagen" accept=".png,.jpg" id="imagen" />
+                    <input class="file-input" type="file" name="image" accept=".png,.jpg" id="image" />
                     <span class="file-cta">
                         <span class="file-icon">
                             <i class="fas fa-upload"></i>
@@ -64,7 +63,7 @@
     const uploadBtn = document.getElementById('upload');
     const radioVal = document.querySelectorAll('input[name="type"]');
     const filename = document.querySelector('.file-name');
-    const fileBtn = document.querySelector('#imagen');
+    const fileBtn = document.querySelector('#image');
     
     function check_content() {
         const radioVal = document.querySelector('input[name="type"]:checked');

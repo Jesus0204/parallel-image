@@ -1,0 +1,26 @@
+<%- include('includes/head.ejs') %>
+
+<body>
+    <section class="section">
+        <div class="columns">
+            <div class="column is-8">
+                <h1 id="title" class="title">Processed Image</h1>
+            </div>
+            <div class="column is-4">
+                <a href="/" class="button is-info">Process Another Image</a>
+            </div>
+        </div>
+        <p>
+            The image with the filter selected was the following:
+        </p>
+        <br>
+        <div class="columns">
+            <div class="column is-full">
+                <img src="<%= image %>">
+            </div>
+        </div>
+        <br>
+    </section>
+</body>
+
+<%- include('includes/foot.ejs') %>
