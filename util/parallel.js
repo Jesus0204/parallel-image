@@ -27,9 +27,14 @@ function processImageSepia(pixels) {
         let red = pixels[i];
         let green = pixels[i + 1];
         let blue = pixels[i + 2];
-        pixels[i] = 0.393 * red + 0.769 * green + 0.189 * blue; // Red
-        pixels[i + 1] = 0.349 * red + 0.686 * green + 0.168 * blue; // Green
-        pixels[i + 2] = 0.272 * red + 0.534 * green + 0.131 * blue;
+        sepiaRed = 0.393 * red + 0.769 * green + 0.189 * blue; // Red
+        sepiaGreen = 0.349 * red + 0.686 * green + 0.168 * blue; // Green
+        sepiaBlue = 0.272 * red + 0.534 * green + 0.131 * blue;
+
+        // Make sure all of the values are under 255 (which sometimes the operation exceeds this number)
+        pixels[i] = Math.min(255, sepiaRed); // Red
+        pixels[i + 1] = Math.min(255, sepiaGreen); // Green
+        pixels[i + 2] = Math.min(255, sepiaBlue); // Blue
     }
     return pixels;
 }
