@@ -1,22 +1,16 @@
 const { Worker } = require('worker_threads');
+const piscina = require('../util/pool');
 const PNGReader = require('png.js');
 const { PNG } = require('pngjs');
 const jpeg = require('jpeg-js');
 const moment = require('moment');
 const os = require('os');
 
+// Run and process the selected part of the image with the function in the parallel.js file
 function createWorker(pixels, type) {
-    return new Promise((resolve, reject) => {
-        const worker = new Worker('./util/parallel');
-
-        worker.on('message', resolve);
-        worker.on('error', reject);
-        worker.on('exit', (code) => {
-            if (code !== 0)
-                reject(new Error(`Worker stopped with exit code ${code}`));
-        });
-
-        worker.postMessage({pixels, type});
+    return piscina.run({
+        pixels,
+        type
     });
 }
 
@@ -41,13 +35,12 @@ async function imagePartsPreProcessing(pixels, type, numOfThreads_CPU) {
     
         // Get the time it took
         let timeTook = end - start;
-        console.log(end - start + ' ms');
 
         return {transformedImage, timeTook};
     } catch(error) {
         console.log(error);
         let emptyArray = [];
-        return {emptyArray, timeTook};
+        return {emptyArray, timeTook: 0};
     }
 
 }

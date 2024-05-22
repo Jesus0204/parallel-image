@@ -1,5 +1,3 @@
-const { parentPort } = require('worker_threads');
-
 function processImageInverse(pixels) {
     for (let i = 0; i < pixels.length; i += 4) {
         // Invert colors
@@ -39,22 +37,17 @@ function processImageSepia(pixels) {
     return pixels;
 }
 
-// Receive the data from the main thread
-parentPort.on('message', (data) => {
-    let { pixels, type } = data;
+module.exports = ({ pixels, type }) => {
     let result;
 
     // Check the option and call the appropiate function
-    if (type == 'blur') {
-       console.log('blur');
-    } else if (type == 'grayscale') {
+    if (type === 'grayscale') {
         result = processImageGreyscale(pixels);
-    } else if (type == 'sepia') {
+    } else if (type === 'sepia') {
         result = processImageSepia(pixels);
-    } else if (type == 'invert') {
+    } else if (type === 'invert') {
         result = processImageInverse(pixels);
     }
-    
-    // Send the processed pixels back to the main thread
-    parentPort.postMessage(result);
-});
+
+    return result;
+};

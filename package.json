@@ -36,6 +36,7 @@
     "nodemon": "^3.1.0",
     "paralleljs": "^1.1.0",
     "path": "^0.12.7",
+    "piscina": "^4.5.1",
     "png.js": "^0.2.1",
     "pngjs": "^7.0.0",
     "worker-threads": "^1.0.0"
