@@ -46,10 +46,13 @@ Using the Parallel(data, opts) constructor, it takes the data for the parallel J
 ### Worker threads
 Anto (2022) talks about how Node JS is great because of its single-threaded nature to handle I/O (input-output operations). It does this because the architecture has the libuv library, which helps handle the asynchronous code. Whenever "the Event Loop encounters code that must be executed asynchronously (e.g., accessing the file system, making network calls, and other I/O operations), instead of executing the code on its own, it delegates it to a pool of threads and moves on to executing the remainder of the program. The threads then parallelly execute the asynchronous code and return an event to the Event Loop once done". This is great, but the problem is that CPU-intensive operations are executed by the Event Loop, so they would take a long time to execute. 
 
+Here are where worker threads come in handy. "A worker thread runs a piece of code as instructed by the parent thread in isolation from the parent and other worker threads. Each worker thread has its own isolated V8 environment, event loop, event queue, etc" (Anto, 2022). A pool of worker threads can be created to execute parallel tasks. A new worker can be created for each part of the tasks, and using a promise, we can wait for all the workers to finish their job. Anto (2022) mentions a library called Piscina, which is a pooling library that helps you manage all the workers. 
+
 ### Cluster
-Bla Bla
+Rehman (2023), mentions that "Clustering in Node.js involves creating multiple worker processes that share the incoming workload. Each worker process runs in its own event loop, utilizing the available CPU cores. The master process manages the worker processes, distributes incoming requests, and handles process failures". Even though it uses multiple workers to share the workload (which is essentially what Parallelism is) it is important to note here the keyword **request**. After asking ChatGTP how the cluster library works OpenAI mentioned cluster "is primarily used for creating a master-worker architecture to utilize multiple CPU cores, which is more suitable for handling multiple requests concurrently rather than parallelizing individual tasks". Image processing does not deal with handling multiple requests so even though parallelism is used, this is not a good fit for my project. 
 
 ### Best option
+I already mentioned why the Cluster library is not a good option, so of Parallel JS and Worker threads which is better? To be honest, the Parallel JS library looked to me the easiest to implement, and on paper, it was a great library. Yet after implementing the project with the map function, the image took over a minute to process. I researched online and found that the quality of the library was poor and that it did not handle overhead properly (since I am dealing with millions of pixels). Even though the library has another method called spawn that I could use to create the workers, I decided to not use the library based on my initial findings. Because of this, the worker threads library was the best option for my project. 
 
 ## Model
 Here the model will be defined
@@ -64,6 +67,8 @@ Geeks for Geeks. (January 18, 2024). Node Child Processing. https://www.geeksfor
 OpenMP. (n.d.). The OpenMP API specification for parallel programming. https://www.openmp.org/resources/tutorials-articles/
 
 Parallel JS. (n.d.). Easy multi-core processing with javascript. https://parallel.js.org/
+
+Rehman, A. (July 17, 2023). Implementing Node.js Cluster for Improved Performance. https://medium.com/@mjdrehman/implementing-node-js-cluster-for-improved-performance-f800146e58e1
 
 Steiner, T. (June 29, 2023). What is WebAssembly and where did it come from?. https://web.dev/articles/what-is-webassembly
 
