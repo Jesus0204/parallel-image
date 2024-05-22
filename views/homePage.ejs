@@ -7,6 +7,7 @@
         <p>
             Welcome! This is a small website application which uses the worker threads to process an image.
             Please upload an image, select the type of processing that you want, and submit the image! 
+            You can compare the speed by selecting one core, and then multiple to compare both speeds.
         </p>
         <br>
         <form action="/processImage" method="POST" enctype="multipart/form-data">
@@ -30,6 +31,19 @@
                 </label>
             </div>
             <br>
+            <label class="label" for="cores">Number of cores</label>
+            <div class="control">
+                <label class="radio">
+                    <input type="radio" name="cores" value="single" />
+                    Single Core (Sequential)
+                </label>
+                <label class="radio">
+                    <input type="radio" name="cores" value="multiple" />
+                    Computer CPU Cores
+                </label>
+            </div>
+            <br>
+
             <label class="label" for="imagen">Image to Process:</label>
             <div id="file-js-upload" class="file is-info has-name">
                 <label class="file-label">
@@ -62,15 +76,22 @@
 
     const uploadBtn = document.getElementById('upload');
     const radioVal = document.querySelectorAll('input[name="type"]');
+    const coreVal = document.querySelectorAll('input[name="cores"]');
     const filename = document.querySelector('.file-name');
     const fileBtn = document.querySelector('#image');
     
     function check_content() {
         const radioVal = document.querySelector('input[name="type"]:checked');
-        uploadBtn.disabled = radioVal.value.length === 0 || filename.innerHTML === 'No file uploaded';
+        const coreVal = document.querySelector('input[name="cores"]:checked');
+        uploadBtn.disabled = radioVal.value.length === 0 || filename.innerHTML === 'No file uploaded' ||
+        coreVal.value.length === 0;
     }
 
     for (radio of radioVal) {
+        radio.addEventListener('click', check_content);
+    }
+
+    for (radio of coreVal) {
         radio.addEventListener('click', check_content);
     }
 
