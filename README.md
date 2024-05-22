@@ -44,7 +44,7 @@ The Parallel JS Documentation states that when using Node, the library uses chil
 Using the Parallel(data, opts) constructor, it takes the data for the parallel Job. You can also set the maximum number of workers, which by default is the number of cores that the computer has. After creating the job, the map function is used, where Parallel JS will spawn one worker for each element in the data array that you previously passed. If the data has more elements than workers, it will use the maxWorkers argument. This means that if all my CPUs are available, it will spawn one worker for the first 10 elements, and when any task is finished give a new worker to the next element in the data.
 
 ### Worker threads
-Bla bla
+Anto (2022) talks about how Node JS is great because of its single-threaded nature to handle I/O (input-output operations). It does this because the architecture has the libuv library, which helps handle the asynchronous code. Whenever "the Event Loop encounters code that must be executed asynchronously (e.g., accessing the file system, making network calls, and other I/O operations), instead of executing the code on its own, it delegates it to a pool of threads and moves on to executing the remainder of the program. The threads then parallelly execute the asynchronous code and return an event to the Event Loop once done". This is great, but the problem is that CPU-intensive operations are executed by the Event Loop, so they would take a long time to execute. 
 
 ### Cluster
 Bla Bla
@@ -55,6 +55,8 @@ Bla Bla
 Here the model will be defined
 
 ## References
+Anto. (February 28, 2022). Parallel processing in Node.js using worker threads. https://deepsource.com/blog/nodejs-worker-threads
+
 Geeks for Geeks. (June 4, 2021). Introduction to Parallel Computing. https://www.geeksforgeeks.org/introduction-to-parallel-computing/ 
 
 Geeks for Geeks. (January 18, 2024). Node Child Processing. https://www.geeksforgeeks.org/node-js-child-process/
