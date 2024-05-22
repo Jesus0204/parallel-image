@@ -36,7 +36,7 @@ Having selected the method, now the library has to be selected. After researchin
 2. Worker Threads
 3. Cluster
 
-Let's dive in to how each library works, and based on this select the best. 
+Let's dive into how each library works, and based on this select the best. 
 
 ### Parallel JS
 The Parallel JS Documentation states that when using Node, the library uses child processes. But what are Child Processes? According to Geeks for Geeks (2024), a child process can create additional threads. Now, I had mentioned that Parallel programming is running a single task on multiple CPUs, but here it seems like new threads will be created for every task. In reality, I will only have two threads. The first one is the main Javascript thread where the web application is running. The beauty of Parallel JS is that it leaves this thread alone, so the whole of the application can run smoothly. If this thread was given to execute the task, the web app would likely crash, so it is important to leave this thread alone. The other thread would be the one that processes the image with parallel programming. 
@@ -49,13 +49,18 @@ Anto (2022) talks about how Node JS is great because of its single-threaded natu
 Here are where worker threads come in handy. "A worker thread runs a piece of code as instructed by the parent thread in isolation from the parent and other worker threads. Each worker thread has its own isolated V8 environment, event loop, event queue, etc" (Anto, 2022). A pool of worker threads can be created to execute parallel tasks. A new worker can be created for each part of the tasks, and using a promise, we can wait for all the workers to finish their job. Anto (2022) mentions a library called Piscina, which is a pooling library that helps you manage all the workers. 
 
 ### Cluster
-Rehman (2023), mentions that "Clustering in Node.js involves creating multiple worker processes that share the incoming workload. Each worker process runs in its own event loop, utilizing the available CPU cores. The master process manages the worker processes, distributes incoming requests, and handles process failures". Even though it uses multiple workers to share the workload (which is essentially what Parallelism is) it is important to note here the keyword **request**. After asking ChatGTP how the cluster library works OpenAI mentioned cluster "is primarily used for creating a master-worker architecture to utilize multiple CPU cores, which is more suitable for handling multiple requests concurrently rather than parallelizing individual tasks". Image processing does not deal with handling multiple requests so even though parallelism is used, this is not a good fit for my project. 
+Rehman (2023), mentions that "Clustering in Node.js involves creating multiple worker processes that share the incoming workload. Each worker process runs in its event loop, utilizing the available CPU cores. The master process manages the worker processes, distributes incoming requests, and handles process failures". Even though it uses multiple workers to share the workload (which is essentially what Parallelism is) it is important to note here the keyword **request**. After asking ChatGTP how the cluster library works OpenAI mentioned cluster "is primarily used for creating a master-worker architecture to utilize multiple CPU cores, which is more suitable for handling multiple requests concurrently rather than parallelizing individual tasks". Image processing does not deal with handling multiple requests so even though parallelism is used, this is not a good fit for my project. 
 
 ### Best option
 I already mentioned why the Cluster library is not a good option, so of Parallel JS and Worker threads which is better? To be honest, the Parallel JS library looked to me the easiest to implement, and on paper, it was a great library. Yet after implementing the project with the map function, the image took over a minute to process. I researched online and found that the quality of the library was poor and that it did not handle overhead properly (since I am dealing with millions of pixels). Even though the library has another method called spawn that I could use to create the workers, I decided to not use the library based on my initial findings. Because of this, the worker threads library was the best option for my project. 
 
 ## Model
-Here the model will be defined
+To make the program flexible, I will use the number of cores that every computer has and create that amount of workers. This is done with the following line of code: 
+```Javascript
+numOfThreads_CPU = os.cpus().length;;
+```
+Considering that my Computer has 10 cores (M1 Pro Silicon Apple Chip) the program execution will look like the following diagram: 
+[].
 
 ## References
 Anto. (February 28, 2022). Parallel processing in Node.js using worker threads. https://deepsource.com/blog/nodejs-worker-threads
