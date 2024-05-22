@@ -146,6 +146,37 @@ The image on the left shows the result of selecting the inverse filter, the Sing
 
 Here using the sequential option took 796ms, while the multiple cores option took 425ms. It is almost twice as fast! It is also important to mention that not always more cores means faster processing, since managing the threads is not that simple. 
 
+## Analysis
+### Time Complexity
+Now the main processing takes place in the ```parallel.js``` file. Depending on the type of processing selected a different function is called, yet the important thing that all share is that that this is done with a for loop. Here is an example of the for loop that inverts the image: 
+```Javascript
+for (let i = 0; i < pixels.length; i += 4) {
+        // Invert colors
+        pixels[i] = 255 - pixels[i]; // Red
+        pixels[i + 1] = 255 - pixels[i + 1]; // Green
+        pixels[i + 2] = 255 - pixels[i + 2]; // Blue
+    }
+```
+
+Since a single for loop where each iteration increments by 4, the time complexity when the program is run sequentially is O(n/4). Here **n** represents the length of the pixel array. Now this changes when the number of cores is used. Since each chunk of the image is ruinning at the same time, the program is essentially faster. In my case, since I have 10 cores, the time complexity would be the following: O(n/4 * 10) --> O(n/40). This means the program is running at an optimal speed and 40 times faster than O(n). It is important to mention that this is ideal, since processes like overhead and other factors do influence this the time it takes to run a little bit.  
+
+The time complexity for any computer would be solved with the following formula:
+$O(n/4 * cores)$
+
+## Resources
+### Other libraries
+Several other libraries were used to aid this project, and these are: 
+- moment: used to get the current date in a easier manner.
+- os: used to get the cores of the user's computers.
+- jpeg-js: used to deconstruct to get the pixels of the image, and to reconstruct the image so the user can see it.
+- png.js: used to deconstruct the PNG image to get the pixels.
+- pngjs: used to reconstruct the new image and show it to the user.
+- piscina: used to manage the thread pools.
+- multer: used to process files uploaded to the webpage
+
+### Other resources
+The code went through a lot of iterations, and I used ChatGTP to help me generate and understand the code. Big parts of the code (expecially the image reconstruction so it can be shown to the user) was generated through OpenAI and ChatGTP since I had no experience on how to handle images and didn't find much on the internet. For the rest it was a combination of internet research and through ChatGTP. I just want to be transparent that a lot of the code ChatGTP helped me generate it, but that does not mean I don't understand what the code is doing. 
+
 ## References
 Anto. (February 28, 2022). Parallel processing in Node.js using worker threads. https://deepsource.com/blog/nodejs-worker-threads
 
