@@ -115,6 +115,7 @@ This will start a local server on your computer, so the website can be opened di
 
 ## Tests
 To test the website you can use the following images: 
+
 ![forest](https://github.com/Jesus0204/parallel-image/assets/65917649/66248552-cd2a-479a-b3ce-793508d351ab)
 ![hello_there](https://github.com/Jesus0204/parallel-image/assets/65917649/3f5f68bd-a9cd-47ef-b883-61169f9e750d)
 ![dogs](https://github.com/Jesus0204/parallel-image/assets/65917649/253aae5f-4d10-42ac-879f-ed066725efac)
@@ -123,6 +124,7 @@ Or any other images you like. The only caveat is that the images have to be PNG 
 
 ## Sepia Test
 The image on the left shows the result of selecting the sepia filter, the Single Core (Sequential) option, and the forest image, while the image right shows the same image with the same filter, but using the Computer CPU Cores option to process it.
+
 <img width="500" alt="Screenshot 2024-05-22 at 14 49 39" src="https://github.com/Jesus0204/parallel-image/assets/65917649/ebf10d38-9796-4c17-b7e3-0e607bff80e0">
 <img width="500" alt="Screenshot 2024-05-22 at 14 51 37" src="https://github.com/Jesus0204/parallel-image/assets/65917649/6bb2e3f8-59af-4d87-af36-7c7200fd4024">
 
@@ -130,6 +132,7 @@ Here you can observe how using the sequential option took 2407ms, while using 10
 
 ## Greyscale Test
 The image on the left shows the result of selecting the greyscale filter, the Single Core (Sequential) option, and the hello there image, while the image right shows the same image with the same filter, but using the Computer CPU Cores option to process it.
+
 <img width="500" alt="Screenshot 2024-05-22 at 14 56 43" src="https://github.com/Jesus0204/parallel-image/assets/65917649/1ded455c-3454-4083-95e8-0a353c579c6a">
 <img width="500" alt="Screenshot 2024-05-22 at 14 57 44" src="https://github.com/Jesus0204/parallel-image/assets/65917649/ba118d86-f257-4ba4-82d4-211e485a0bca">
 
@@ -137,6 +140,7 @@ This image is a low size image (unlike the forest one) so the sequential option 
 
 ## Inverse Test
 The image on the left shows the result of selecting the inverse filter, the Single Core (Sequential) option, and the dogs image, while the image right shows the same image with the same filter, but using the Computer CPU Cores option to process it.
+
 <img width="500" alt="Screenshot 2024-05-22 at 15 08 31" src="https://github.com/Jesus0204/parallel-image/assets/65917649/205c4201-a235-4847-8a0c-f688ed93afa4">
 <img width="500" alt="Screenshot 2024-05-22 at 15 09 00" src="https://github.com/Jesus0204/parallel-image/assets/65917649/55374fcb-e9e3-426e-b6cf-1e7b94942f51">
 
