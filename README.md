@@ -90,7 +90,7 @@ module.exports = ({ pixels, type }) => {
 };
 ```
 
-Now in the controller file, after the image is uploaded, the image is separated into parts based on the user's choice. After that, the ```createWorker``` function is called, which receives the pixels and the type of processing. The function creates a new thread in the thread pool and runs the previous code. Here is the function:
+Now in the ```images.controller.js``` file, after the image is uploaded, the image is separated into parts based on the user's choice. After that, the ```createWorker``` function is called, which receives the pixels and the type of processing. The function creates a new thread in the thread pool and runs the previous code. Here is the function:
 ```Javascript
 function createWorker(pixels, type) {
     return piscina.run({
