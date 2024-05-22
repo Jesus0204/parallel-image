@@ -54,13 +54,17 @@ Rehman (2023), mentions that "Clustering in Node.js involves creating multiple w
 ### Best option
 I already mentioned why the Cluster library is not a good option, so of Parallel JS and Worker threads which is better? To be honest, the Parallel JS library looked to me the easiest to implement, and on paper, it was a great library. Yet after implementing the project with the map function, the image took over a minute to process. I researched online and found that the quality of the library was poor and that it did not handle overhead properly (since I am dealing with millions of pixels). Even though the library has another method called spawn that I could use to create the workers, I decided to not use the library based on my initial findings. Because of this, the worker threads library was the best option for my project. 
 
-## Model
+## Model & Execution
 To make the program flexible, I will use the number of cores that every computer has and create that amount of workers. This is done with the following line of code using the os library: 
 ```Javascript
 numOfThreads_CPU = os.cpus().length;;
 ```
-Considering that my Computer has 10 cores (M1 Pro Silicon Apple Chip) the program execution will look like the following diagram: 
-[].
+Considering that my Computer has 10 cores (M1 Pro Silicon Apple Chip), the program execution will look like the following diagram: 
+
+![Diagrama De Ejecucion](https://github.com/Jesus0204/parallel-image/assets/65917649/22573f62-b529-407c-9ff4-e9b451b66044)
+
+Taking the ```numOfThreads_CPU``` variable, the program divides the pixels of the image by the number of cores that the computer has. Then, it creates it creates a worker per core of the CPU. As seen in the diagram, in my case it created 10 workers. Each worker transforms the pixels of their corresponding chunk and after all the chunks are finished processing they are saved back into a single variable. Finally, the image is reconstructed and then returned to the EJS so it can be shown to the user. 
+
 
 ## References
 Anto. (February 28, 2022). Parallel processing in Node.js using worker threads. https://deepsource.com/blog/nodejs-worker-threads
