@@ -13,10 +13,9 @@ This means that concurrency is multiple tasks over a single CPU, while paralleli
 ## Description
 Considering this, I implemented a small web app using parallel programming. On the small website, you can upload an image, and transform the image into one of the following:
 
-1. blur
-2. greyscale
-3. sepia
-4. invert
+1. greyscale
+2. sepia
+3. invert
 
 Image processing is a very expensive program to run since every pixel of the image has to be transformed depending on what was selected. Common images have 2048 pixels in width and 1536 in height, which means that the total of pixels is 3,145,728. And this isn't even a high-quality image, where the pixel count could increase to 25,000,000 pixels. To apply the "filters" to the images more efficiently, parallel programming would cut the time considerably, and take advantage of the full resources of the CPU. 
 
@@ -64,6 +63,55 @@ Considering that my Computer has 10 cores (M1 Pro Silicon Apple Chip), the progr
 ![Diagrama De Ejecucion](https://github.com/Jesus0204/parallel-image/assets/65917649/22573f62-b529-407c-9ff4-e9b451b66044)
 
 Taking the ```numOfThreads_CPU``` variable, the program divides the pixels of the image by the number of cores that the computer has. Then, it creates it creates a worker per core of the CPU. As seen in the diagram, in my case it created 10 workers. Each worker transforms the pixels of their corresponding chunk and after all the chunks are finished processing they are saved back into a single variable. Finally, the image is reconstructed and then returned to the EJS so it can be shown to the user. 
+
+### Code Explanation
+In the file ```pool.js```the pool of threads is created: 
+```Javascript
+const piscina = new Piscina({
+    filename: './util/parallel.js',
+    maxThreads: os.cpus().length
+});
+```
+```pool.js``` calls the ```parallel.js```. Here the function receives the pixels to transform as well the the transformation type. Based on the user choice, the function calls the helper function, which transforms the pixels to Greyscale, Sepia or Inverts the image. The main function is the following: 
+```Javascript
+module.exports = ({ pixels, type }) => {
+    let result;
+
+    // Check the option and call the appropriate function
+    if (type === 'grayscale') {
+        result = processImageGreyscale(pixels);
+    } else if (type === 'sepia') {
+        result = processImageSepia(pixels);
+    } else if (type === 'invert') {
+        result = processImageInverse(pixels);
+    }
+
+    return result;
+};
+```
+
+Now in the controller file, after the image is uploaded, the image is separated into parts based on the user's choice. After that, the ```createWorker``` function is called, which receives the pixels and the type of processing. The function creates a new thread in the thread pool and runs the previous code. Here is the function:
+```Javascript
+function createWorker(pixels, type) {
+    return piscina.run({
+        pixels,
+        type
+    });
+}
+```
+This function is called for every part of the image. If the image was split in 10, each part of the image is called the function where it receives the corresponding pixels. 
+
+## Running the webpage
+To be able to run the webpage, please download a zip file of the repository. After downloading the file open the zip, so a folder is created. On the terminal, change to the directory inside of the folder. After this is done, run the following command: 
+```console
+npm install
+```
+
+This will install the dependencies that the website has, so it can run optimally. Then, run the following command: 
+```console
+npm start
+```
+This will start a local server on your computer, so the website can be opened directly in a browser. Then on the browser of your choice (preferably Chrome) open the following link: http://localhost:2000/.
 
 
 ## References
