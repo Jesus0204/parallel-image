@@ -55,7 +55,7 @@ Rehman (2023), mentions that "Clustering in Node.js involves creating multiple w
 I already mentioned why the Cluster library is not a good option, so of Parallel JS and Worker threads which is better? To be honest, the Parallel JS library looked to me the easiest to implement, and on paper, it was a great library. Yet after implementing the project with the map function, the image took over a minute to process. I researched online and found that the quality of the library was poor and that it did not handle overhead properly (since I am dealing with millions of pixels). Even though the library has another method called spawn that I could use to create the workers, I decided to not use the library based on my initial findings. Because of this, the worker threads library was the best option for my project. 
 
 ## Model
-To make the program flexible, I will use the number of cores that every computer has and create that amount of workers. This is done with the following line of code: 
+To make the program flexible, I will use the number of cores that every computer has and create that amount of workers. This is done with the following line of code using the os library: 
 ```Javascript
 numOfThreads_CPU = os.cpus().length;;
 ```
