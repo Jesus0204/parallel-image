@@ -10,15 +10,7 @@ app.set('views', 'views');
 
 const path = require('path');
 
-const session = require('express-session');
-
-app.use(session({
-    secret: 's&xYnn9oVRuo3*0@sBA&SedkdMGoM!&e%kASzFfZ6537MqWruvYe27X=7hQUdktRRxYQHDjWtW7veznF',
-    resave: false, 
-    saveUninitialized: false, 
-}));
-
-// La aplicacion va a tener acceso a todo lo que esta en public
+// So the app can access everything in public
 app.use(express.static(path.join(__dirname, 'public')));
 
 // To manipulate easily the data 
@@ -29,6 +21,7 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
+// To be able to upload files
 const multer = require('multer');
 const upload = multer(); 
 
@@ -40,6 +33,7 @@ app.use(compression());
 
 app.use(bodyParser.json());
 
+// To use the main route
 const rutasImage = require('./routes/image.routes');
 app.use('/', rutasImage);
 

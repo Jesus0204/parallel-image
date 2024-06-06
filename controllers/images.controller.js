@@ -1,4 +1,3 @@
-const { Worker } = require('worker_threads');
 const piscina = require('../util/pool');
 const PNGReader = require('png.js');
 const { PNG } = require('pngjs');
@@ -6,7 +5,13 @@ const jpeg = require('jpeg-js');
 const moment = require('moment');
 const os = require('os');
 
-// Run and process the selected part of the image with the function in the parallel.js file
+/**
+ * Creates a worker or thread in the thread pool
+ *
+ * @param pixels the pixels of the selected portion of the image that the thread will process 
+ * @param type the type of image that the thread will process
+ * @return What the function in parallel.js returns (the processed pixels of the image)
+ */
 function createWorker(pixels, type) {
     return piscina.run({
         pixels,
@@ -14,6 +19,16 @@ function createWorker(pixels, type) {
     });
 }
 
+/**
+ * Divides the image into chunks and creates a worker for each chunk
+ * 
+ * Takes the time that it takes to process the whole image until the promises are resolved
+ *
+ * @param pixels the pixels of the whole image 
+ * @param type the type of image that the thread will process
+ * @param numOfThreads_CPU the number of cores that the OS CPU has
+ * @return the pixels of the transfored image and the time it took to process it
+ */
 async function imagePartsPreProcessing(pixels, type, numOfThreads_CPU) {
     // Ensure that the image part size is divisible by 4 so the algorithm works correctly
     const imageSizepPart = Math.ceil(pixels.length / numOfThreads_CPU / 4) * 4;
@@ -45,16 +60,28 @@ async function imagePartsPreProcessing(pixels, type, numOfThreads_CPU) {
 
 }
 
+/**
+ * Main function to deconstruct and reconstruct the image with the new pixel data
+ * 
+ * Renders the result with the processed inage, or a EJS file to manage errors
+ *
+ * @param request JS method to request data
+ * @param response JS method to respond with data
+ * @return 
+ */
 exports.processImage = async (request, response, next) => {
 
+    // Define the number of threads to be used based on the user input
     let numOfThreads_CPU;
     if (request.body.cores == 'single'){
         numOfThreads_CPU = 1;
     } else if (request.body.cores == 'multiple') {
-        numOfThreads_CPU = os.cpus().length;; // Cores of the user's computer
+        numOfThreads_CPU = os.cpus().length;; 
     }
 
+    // Ensure a file was sent
     if (request.file != undefined) {
+        // Process PNGs
         if (request.file.mimetype == 'image/png'){ 
             // Using png.js parse through the PNG (which I can get as the buffer)
             var reader = new PNGReader(request.file.buffer);
@@ -65,6 +92,8 @@ exports.processImage = async (request, response, next) => {
                 let height = png.height;
                 
                 try {
+
+                    // Transform the image
                     let {
                         transformedImage,
                         timeTook
@@ -94,6 +123,7 @@ exports.processImage = async (request, response, next) => {
                             workers: numOfThreads_CPU
                         });
                     });
+                // Manage the errors if there are some
                 } catch (error) {
                     console.log(error);
                     response.status(500).render('500', {
@@ -101,6 +131,7 @@ exports.processImage = async (request, response, next) => {
                     });
                 }
             });
+        // Process JPEGs
         } else if (request.file.mimetype == 'image/jpeg'){
             // Decode the image with the library
             const jpegData = jpeg.decode(request.file.buffer);
@@ -111,6 +142,7 @@ exports.processImage = async (request, response, next) => {
             height = jpegData.height;
     
             try {
+                // Transform the image
                 let {
                     transformedImage,
                     timeTook
@@ -130,7 +162,7 @@ exports.processImage = async (request, response, next) => {
                      width: width,
                      height: height
                  };
-                 const jpegImageData = jpeg.encode(rawImageData, 90); // Quality from 0 to 100
+                 const jpegImageData = jpeg.encode(rawImageData, 100); // Quality from 0 to 100
                  const base64Image = jpegImageData.data.toString('base64');
                  const dataUri = `data:image/jpeg;base64,${base64Image}`;
     
@@ -160,6 +192,13 @@ exports.processImage = async (request, response, next) => {
 
 };
 
+/**
+ * Renders the home page of the website
+ *
+ * @param request JS method to request data
+ * @param response JS method to respond with data
+ * @return 
+ */
 exports.getHomePage = (request, response, next) => {
     response.render('homePage');
 };

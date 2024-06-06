@@ -1,3 +1,9 @@
+/**
+ * Processes and transforms the pixels of the chunk of the image with the Inverse filter
+ *
+ * @param pixels the pixels of the selected portion of the image that the thread will process
+ * @return - The pixels of the chunk of the image with Inverse
+ */
 function processImageInverse(pixels) {
     for (let i = 0; i < pixels.length; i += 4) {
         // Invert colors
@@ -8,6 +14,12 @@ function processImageInverse(pixels) {
     return pixels;
 }
 
+/**
+ * Processes and transforms the pixels of the chunk of the image with the Greyscale filter
+ *
+ * @param pixels the pixels of the selected portion of the image that the thread will process
+ * @return - The pixels of the chunk of the image with Greyscale
+ */
 function processImageGreyscale(pixels) {
     for (let i = 0; i < pixels.length; i += 4) {
         // Greyscale
@@ -19,6 +31,12 @@ function processImageGreyscale(pixels) {
     return pixels;
 }
 
+/**
+ * Processes and transforms the pixels of the chunk of the image with the Sepia filter
+ *
+ * @param pixels the pixels of the selected portion of the image that the thread will process
+ * @return - The pixels of the chunk of the image with Sepia 
+ */
 function processImageSepia(pixels) {
     for (let i = 0; i < pixels.length; i += 4) {
         // Sepia
@@ -37,6 +55,13 @@ function processImageSepia(pixels) {
     return pixels;
 }
 
+/**
+ * Decides which function to call based on the filter selected
+ *
+ * @param pixels the pixels of the selected portion of the image that the thread will process
+ * @param type the type of filter that will be applied
+ * @return - The pixels of the chunk of the image with the applied filter
+ */
 module.exports = ({ pixels, type }) => {
     let result;
 
